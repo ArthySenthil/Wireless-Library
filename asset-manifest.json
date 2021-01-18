@@ -1,0 +1,22 @@
+{
+  "files": {
+    "app.js": "/Wireless-Library/static/js/app.e8616258.chunk.js",
+    "app.js.map": "/Wireless-Library/static/js/app.e8616258.chunk.js.map",
+    "runtime~app.js": "/Wireless-Library/static/js/runtime~app.15055050.js",
+    "runtime~app.js.map": "/Wireless-Library/static/js/runtime~app.15055050.js.map",
+    "static/js/2.81bdc113.chunk.js": "/Wireless-Library/static/js/2.81bdc113.chunk.js",
+    "static/js/2.81bdc113.chunk.js.map": "/Wireless-Library/static/js/2.81bdc113.chunk.js.map",
+    "favicon-16.png": "/Wireless-Library/favicon-16.png",
+    "favicon-32.png": "/Wireless-Library/favicon-32.png",
+    "favicon.ico": "/Wireless-Library/favicon.ico",
+    "index.html": "/Wireless-Library/index.html",
+    "manifest.json": "/Wireless-Library/manifest.json",
+    "serve.json": "/Wireless-Library/serve.json",
+    "static/js/2.81bdc113.chunk.js.LICENSE.txt": "/Wireless-Library/static/js/2.81bdc113.chunk.js.LICENSE.txt"
+  },
+  "entrypoints": [
+    "static/js/runtime~app.15055050.js",
+    "static/js/2.81bdc113.chunk.js",
+    "static/js/app.e8616258.chunk.js"
+  ]
+}
