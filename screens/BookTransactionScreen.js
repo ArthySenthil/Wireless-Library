@@ -1,8 +1,9 @@
 import React from 'react';
-import {StyleSheet, Text,View, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text,View, TouchableOpacity, Image} from 'react-native';
 import { render } from 'react-dom';
 import * as Permissions from 'expo-permissions';
 import {BarCodeScanner} from 'expo-barcode-scanner';
+import { TextInput } from 'react-native-gesture-handler';
 
 export default class TransactionScreen extends React.Component{
   constructor(){
@@ -10,28 +11,40 @@ export default class TransactionScreen extends React.Component{
     this.state = {
       hasCameraPermissions: null,
       scanned: false,
+      scannedBookId: '',
       scannedData: '',
       buttonState: 'normal'
     }
   }
 
-  getCameraPermissions = async ()=>{
+  getCameraPermissions = async (id)=>{
     const {status} = await Permissions.askAsync(Permissions.CAMERA);
 
     this.setState({
       hasCameraPermissions: status ==='granted',
-      buttonState: 'clicked',
+      buttonState: id,
       scanned: false
     })
 
   }
 
   handleBarCodeScanned = async({type,data}) =>{
-    this.setState({
-      scanned:true,
-      scannedData: data,
-      buttonState:'normal'
-    });
+    const {buttonState} = this.state
+    if(buttonState==="BookId"){
+      this.setState({
+        scanned: true,
+        scannedBookId: data,
+        buttonState: 'normal'
+      });
+    }
+    else if(buttonState === "StudentId"){
+      this.setState({
+        scanned: true,
+        scannedStudentId: data,
+        buttonState: 'normal'
+      });
+    }
+    
   }
 
 
@@ -39,7 +52,7 @@ export default class TransactionScreen extends React.Component{
       const hasCameraPermissions=this.state.hasCameraPermissions;
       const scanned = this.state.scanned;
       const buttonState = this.state.buttonState;
-      if(buttonState === 'clicked' && hasCameraPermissions){
+      if(buttonState !== "normal" && hasCameraPermissions){
        return(
           <BarCodeScanner
           onBarCodeScanned = {scanned? undefined: this.handleBarCodeScanned}
@@ -47,18 +60,48 @@ export default class TransactionScreen extends React.Component{
           />
        );
       }
-      else if(buttonState === 'normal'){
+      else if(buttonState === "normal"){
     
         return(
+           
             <View style ={styles.container}>
-                <Text style={styles.displayText}>
-                    {  hasCameraPermissions===true? this.state.scannedData: 'Request Camera Permission'} </Text>
-                     <TouchableOpacity onPress ={this.getCameraPermissions} style = {styles.scanButton}>
+              <View>
+                <Image source={require("../assets/logo.png")}
+                style={{width:200, height:200}}/>
+                <Text style={{textAlign:'center', fontSize:30}}>Wireless library</Text>
+              </View>
+            <View style={styles.inputView}>
+              <TextInput 
+                  style={styles.inputBox} 
+                  placeholder="Book Id"
+                  value ={this.state.scannedBookId}/>
+                   <TouchableOpacity  style = {styles.scanButton}
+                   onPress ={()=>{
+                     this.getCameraPermissions('BookId')
+                   }}>
                     <Text style={styles.buttonText} >
-                        Scan QR Code
+                        Scan
                     </Text>
-                </TouchableOpacity>
+                  </TouchableOpacity>
             </View>
+            <View style ={styles.inputView}>
+            <TextInput 
+                  style={styles.inputBox} 
+                  placeholder="Student Id"
+                  value ={this.state.scannedBookId}
+                  />
+                   <TouchableOpacity  style = {styles.scanButton}
+                    onPress ={()=>{
+                      this.getCameraPermissions('StudentId')
+                    }}
+                   >
+                    <Text style={styles.buttonText} >
+                        Scan
+                    </Text>
+                  </TouchableOpacity>
+
+            </View>
+          </View>
         );
 
 
@@ -78,11 +121,28 @@ const styles = StyleSheet.create({
       textDecorationLine: 'underline'
     },
     scanButton:{
-      backgroundColor: '#2196F3',
-      padding: 10,
-      margin: 10
+      backgroundColor: '#66BB6A',
+      width: 50,
+      borderWidth: 1.5,
+      borderLeftWidth:0,
     },
     buttonText:{
-      fontSize: 20,
+      fontSize: 15,
+      textAlign: 'center' ,
+      marginTop: 10
+    },
+    inputBox:{
+      width: 200,
+      height: 40,
+      borderWidth: 1.5,
+      borderRightWidth: 0,
+      fontSize: 20
+
+    },
+    inputView:{
+      flexDirection: 'row',
+      margin: 20
     }
+
+
   });
